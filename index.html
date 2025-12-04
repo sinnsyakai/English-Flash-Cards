@@ -29,6 +29,28 @@
             <button class="level-btn" data-level="level4">中3レベル<br><span class="sub-text">Grade 3</span></button>
         </div>
 
+        <div class="menu-actions">
+            <button id="open-word-list-btn" class="secondary-action-btn">単語一覧・学習記録を見る</button>
+        </div>
+
+        <div id="word-list-area" class="hidden">
+            <h2>単語一覧</h2>
+            <p class="list-instruction">チェックを入れると「覚えた」ことになり、カードに表示されなくなります。</p>
+
+            <div class="level-tabs">
+                <button class="tab-btn active" data-tab="level1">Level 1</button>
+                <button class="tab-btn" data-tab="level2">Level 2</button>
+                <button class="tab-btn" data-tab="level3">Level 3</button>
+                <button class="tab-btn" data-tab="level4">Level 4</button>
+            </div>
+
+            <div id="word-list-content" class="word-list-content">
+                <!-- List will be generated here -->
+            </div>
+
+            <button id="back-from-list-btn" class="text-btn">← メニューに戻る</button>
+        </div>
+
         <div id="game-area" class="hidden">
             <div class="status-bar">
                 <button id="back-to-menu" class="text-btn">← メニューに戻る</button>

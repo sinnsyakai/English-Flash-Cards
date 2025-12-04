@@ -148,6 +148,89 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial Level Calculation
     calculateTotalLevel();
+
+    // --- Word List Feature ---
+    const openWordListBtn = document.getElementById('open-word-list-btn');
+    const wordListArea = document.getElementById('word-list-area');
+    const backFromListBtn = document.getElementById('back-from-list-btn');
+    const wordListContent = document.getElementById('word-list-content');
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    let currentListLevel = 'level1';
+
+    openWordListBtn.addEventListener('click', () => {
+        levelSelection.classList.add('hidden');
+        openWordListBtn.parentElement.classList.add('hidden'); // Hide the button container
+        wordListArea.classList.remove('hidden');
+        renderWordList(currentListLevel);
+    });
+
+    backFromListBtn.addEventListener('click', () => {
+        wordListArea.classList.add('hidden');
+        levelSelection.classList.remove('hidden');
+        openWordListBtn.parentElement.classList.remove('hidden');
+        calculateTotalLevel(); // Update level display just in case
+    });
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active tab
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Render list
+            currentListLevel = btn.getAttribute('data-tab');
+            renderWordList(currentListLevel);
+        });
+    });
+
+    function renderWordList(level) {
+        wordListContent.innerHTML = '';
+        const words = wordData[level];
+        const memorizedIds = JSON.parse(localStorage.getItem(`memorized_${level}`)) || [];
+
+        words.forEach(word => {
+            const isMemorized = memorizedIds.includes(word.id);
+
+            const itemDiv = document.createElement('div');
+            itemDiv.className = `word-list-item ${isMemorized ? 'memorized' : ''}`;
+
+            itemDiv.innerHTML = `
+                <div class="word-info">
+                    <div class="word-en-list">${word.en}</div>
+                    <div class="word-ja-list">${word.ja}</div>
+                </div>
+                <input type="checkbox" class="list-checkbox" ${isMemorized ? 'checked' : ''}>
+            `;
+
+            // Checkbox Event
+            const checkbox = itemDiv.querySelector('.list-checkbox');
+            checkbox.addEventListener('change', (e) => {
+                toggleMemorizedStatus(level, word.id, e.target.checked);
+                if (e.target.checked) {
+                    itemDiv.classList.add('memorized');
+                } else {
+                    itemDiv.classList.remove('memorized');
+                }
+            });
+
+            wordListContent.appendChild(itemDiv);
+        });
+    }
+
+    function toggleMemorizedStatus(level, id, isMemorized) {
+        let memorizedIds = JSON.parse(localStorage.getItem(`memorized_${level}`)) || [];
+
+        if (isMemorized) {
+            if (!memorizedIds.includes(id)) {
+                memorizedIds.push(id);
+            }
+        } else {
+            memorizedIds = memorizedIds.filter(mId => mId !== id);
+        }
+
+        localStorage.setItem(`memorized_${level}`, JSON.stringify(memorizedIds));
+        calculateTotalLevel(); // Update header level immediately
+    }
 });
 
 // Game Logic

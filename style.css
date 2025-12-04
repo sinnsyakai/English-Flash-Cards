@@ -321,11 +321,22 @@ h1 {
     transition: transform 0.2s;
     text-decoration: none;
     /* Remove underline if it was a text-btn */
-    display: inline-block;
 }
 
-#back-to-menu-complete:hover {
-    transform: translateY(-2px);
-    background-color: #0ea5e9;
-    /* Darker Sky Blue */
+.word-en-list {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+.word-ja-list {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.list-checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--primary-color);
+    cursor: pointer;
 }
