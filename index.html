@@ -34,14 +34,18 @@
         </div>
 
         <div id="word-list-area" class="hidden">
-            <h2>単語一覧</h2>
+            <div class="list-header">
+                <button id="back-from-list-top-btn" class="icon-btn">←</button>
+                <h2>単語一覧</h2>
+            </div>
             <p class="list-instruction">チェックを入れると「覚えた」ことになり、カードに表示されなくなります。</p>
 
             <div class="level-tabs">
-                <button class="tab-btn active" data-tab="level1">Level 1</button>
-                <button class="tab-btn" data-tab="level2">Level 2</button>
-                <button class="tab-btn" data-tab="level3">Level 3</button>
-                <button class="tab-btn" data-tab="level4">Level 4</button>
+                <button class="tab-btn active" data-tab="level1">超苦手<br><span class="tab-sub">Super
+                        Basic</span></button>
+                <button class="tab-btn" data-tab="level2">中1<br><span class="tab-sub">Grade 1</span></button>
+                <button class="tab-btn" data-tab="level3">中2<br><span class="tab-sub">Grade 2</span></button>
+                <button class="tab-btn" data-tab="level4">中3<br><span class="tab-sub">Grade 3</span></button>
             </div>
 
             <div id="word-list-content" class="word-list-content">

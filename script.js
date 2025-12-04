@@ -153,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const openWordListBtn = document.getElementById('open-word-list-btn');
     const wordListArea = document.getElementById('word-list-area');
     const backFromListBtn = document.getElementById('back-from-list-btn');
+    const backFromListTopBtn = document.getElementById('back-from-list-top-btn'); // New button
     const wordListContent = document.getElementById('word-list-content');
     const tabBtns = document.querySelectorAll('.tab-btn');
     let currentListLevel = 'level1';
@@ -164,12 +165,16 @@ document.addEventListener('DOMContentLoaded', () => {
         renderWordList(currentListLevel);
     });
 
-    backFromListBtn.addEventListener('click', () => {
+    // Function to close list
+    const closeWordList = () => {
         wordListArea.classList.add('hidden');
         levelSelection.classList.remove('hidden');
         openWordListBtn.parentElement.classList.remove('hidden');
         calculateTotalLevel(); // Update level display just in case
-    });
+    };
+
+    backFromListBtn.addEventListener('click', closeWordList);
+    backFromListTopBtn.addEventListener('click', closeWordList); // Wire up top button
 
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
