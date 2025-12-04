@@ -81,6 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Reset Level
     document.getElementById('reset-level-btn').addEventListener('click', resetLevelProgress);
+
+    // Initial Level Calculation
+    calculateTotalLevel();
 });
 
 // Game Logic
@@ -167,6 +170,9 @@ function markAsMemorized() {
     if (!memorizedIds.includes(word.id)) {
         memorizedIds.push(word.id);
         localStorage.setItem(`memorized_${currentLevel}`, JSON.stringify(memorizedIds));
+
+        // Update total level immediately
+        calculateTotalLevel();
     }
 
     // Remove from active list
@@ -197,13 +203,58 @@ function showMenu() {
     gameArea.classList.add('hidden');
     completionMessage.classList.add('hidden');
     levelSelection.classList.remove('hidden');
+
+    // Recalculate level when returning to menu (just in case)
+    calculateTotalLevel();
 }
 
 function resetLevelProgress() {
     if (confirm("このレベルの学習記録をリセットしますか？")) {
         localStorage.removeItem(`memorized_${currentLevel}`);
+        calculateTotalLevel(); // Update level after reset
         startGame(currentLevel);
     }
+}
+
+function calculateTotalLevel() {
+    let totalWords = 0;
+    let totalMemorized = 0;
+
+    // Iterate through all levels in wordData
+    for (const level in wordData) {
+        const wordsInLevel = wordData[level];
+        totalWords += wordsInLevel.length;
+
+        const memorizedIds = JSON.parse(localStorage.getItem(`memorized_${level}`)) || [];
+        // Ensure we only count valid IDs that exist in the current data (in case data changed)
+        const validMemorized = memorizedIds.filter(id => wordsInLevel.some(w => w.id === id));
+        totalMemorized += validMemorized.length;
+    }
+
+    if (totalWords === 0) return;
+
+    // Calculate percentage (Level 0 - 100)
+    const level = Math.floor((totalMemorized / totalWords) * 100);
+
+    // Animate the number
+    animateValue("current-level", parseInt(document.getElementById("current-level").innerText), level, 1000);
+}
+
+function animateValue(id, start, end, duration) {
+    if (start === end) return;
+    const range = end - start;
+    let current = start;
+    const increment = end > start ? 1 : -1;
+    const stepTime = Math.abs(Math.floor(duration / range));
+    const obj = document.getElementById(id);
+
+    const timer = setInterval(function () {
+        current += increment;
+        obj.innerHTML = current;
+        if (current == end) {
+            clearInterval(timer);
+        }
+    }, stepTime);
 }
 
 // Utilities
