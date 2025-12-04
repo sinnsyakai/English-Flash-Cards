@@ -293,12 +293,39 @@ h1 {
     font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
-    margin: 20px 0;
+    margin: 10px;
+    /* Adjusted margin */
     box-shadow: 0 4px 10px rgba(74, 222, 128, 0.4);
     transition: transform 0.2s;
+    display: inline-block;
+    /* Ensure they sit next to each other if needed */
 }
 
 .primary-btn:hover {
     transform: translateY(-2px);
     background-color: var(--primary-dark);
+}
+
+/* Secondary Action Button (Try other levels) */
+#back-to-menu-complete {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 10px;
+    box-shadow: 0 4px 10px rgba(56, 189, 248, 0.4);
+    transition: transform 0.2s;
+    text-decoration: none;
+    /* Remove underline if it was a text-btn */
+    display: inline-block;
+}
+
+#back-to-menu-complete:hover {
+    transform: translateY(-2px);
+    background-color: #0ea5e9;
+    /* Darker Sky Blue */
 }
