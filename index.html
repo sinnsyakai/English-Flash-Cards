@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Flashcards</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>English Flashcards</h1>
+            <p>レベルを選んでスタート！</p>
+        </header>
+
+        <div id="level-selection" class="level-selection">
+            <button class="level-btn" data-level="level1">超苦手<br><span class="sub-text">Super Basic</span></button>
+            <button class="level-btn" data-level="level2">中1レベル<br><span class="sub-text">Grade 1</span></button>
+            <button class="level-btn" data-level="level3">中2レベル<br><span class="sub-text">Grade 2</span></button>
+            <button class="level-btn" data-level="level4">中3レベル<br><span class="sub-text">Grade 3</span></button>
+        </div>
+
+        <div id="game-area" class="hidden">
+            <div class="status-bar">
+                <button id="back-to-menu" class="text-btn">← メニューに戻る</button>
+                <span id="progress-text">残り: 5単語</span>
+            </div>
+
+            <div class="card-container">
+                <div class="card" id="flashcard">
+                    <div class="card-face card-front">
+                        <div class="word-en" id="word-en">Apple</div>
+                        <div class="instruction">Tap to Flip</div>
+                    </div>
+                    <div class="card-face card-back">
+                        <div class="word-ja" id="word-ja">りんご</div>
+                        <div class="memorize-check">
+                            <label>
+                                <input type="checkbox" id="memorized-checkbox">
+                                <span>覚えた！</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="prev-btn" class="control-btn">前のカード</button>
+                <button id="next-btn" class="control-btn">次のカード</button>
+            </div>
+        </div>
+
+        <div id="completion-message" class="hidden">
+            <div class="celebration">
+                <h2>🎉 Congratulations! 🎉</h2>
+                <p>このレベルの単語はすべて覚えました！</p>
+                <button id="reset-level-btn" class="primary-btn">学習記録をリセットして復習</button>
+                <button id="back-to-menu-complete" class="text-btn">他のレベルに挑戦</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
