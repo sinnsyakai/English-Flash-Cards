@@ -325,6 +325,10 @@ function animateTransition(direction) {
         } else {
             currentIndex--;
         }
+
+        // Hide Japanese text temporarily during transition
+        wordJa.style.visibility = 'hidden';
+
         updateCardDisplay();
 
         flashcard.classList.remove(outClass);
@@ -333,6 +337,8 @@ function animateTransition(direction) {
         // Wait for slide-in to finish
         setTimeout(() => {
             flashcard.classList.remove(inClass);
+            // Restore Japanese text visibility after animation completes
+            wordJa.style.visibility = 'visible';
         }, 300);
     }, 300);
 }
@@ -365,6 +371,10 @@ function markAsMemorized() {
             if (currentIndex >= activeWords.length) {
                 currentIndex = 0;
             }
+
+            // Hide Japanese text temporarily during transition
+            wordJa.style.visibility = 'hidden';
+
             updateCardDisplay();
 
             // Slide in next card
@@ -373,6 +383,8 @@ function markAsMemorized() {
 
             setTimeout(() => {
                 flashcard.classList.remove('slide-in-right');
+                // Restore Japanese text visibility after animation completes
+                wordJa.style.visibility = 'visible';
             }, 300);
         }
     }, 300);
