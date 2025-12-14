@@ -132,75 +132,114 @@ h1 {
     text-decoration: underline;
 }
 
-/* Card Container (Perspective) */
+/* Card Container */
 .card-container {
-    perspective: 1000px;
     width: 100%;
-    height: 300px;
+    min-height: 300px;
     margin-bottom: 30px;
     cursor: pointer;
 }
 
-/* The Card Itself */
+/* The Card Itself - Single Face */
 .card {
     width: 100%;
-    height: 100%;
+    min-height: 280px;
     position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.6s;
     border-radius: 20px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.card.flipped {
-    transform: rotateY(180deg);
-}
-
-/* Front and Back Faces */
-.card-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
+    background-color: var(--card-bg);
+    border: 3px solid var(--primary-color);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: 20px;
-    background-color: var(--card-bg);
-    border: 3px solid var(--primary-color);
+    padding: 30px 20px;
+    transition: transform 0.3s, opacity 0.3s;
 }
 
-.card-front {
-    /* Default front */
-}
-
-.card-back {
-    transform: rotateY(180deg);
-    background-color: #fff7ed;
-    /* Light Orange tint */
+.card.revealed {
     border-color: var(--accent-color);
+    background-color: #fff7ed;
+}
+
+/* Slide animations */
+.card.slide-out-left {
+    animation: slideOutLeft 0.3s forwards ease-in;
+}
+
+.card.slide-in-right {
+    animation: slideInRight 0.3s forwards ease-out;
+}
+
+.card.slide-out-right {
+    animation: slideOutRight 0.3s forwards ease-in;
+}
+
+.card.slide-in-left {
+    animation: slideInLeft 0.3s forwards ease-out;
+}
+
+@keyframes slideOutLeft {
+    to {
+        transform: translateX(-120%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    to {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-120%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 .word-en {
     font-size: 3rem;
     font-weight: bold;
     color: var(--text-color);
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .word-ja {
     font-size: 2.5rem;
     font-weight: bold;
-    color: var(--text-color);
+    color: var(--accent-color);
     margin-bottom: 20px;
+    transition: opacity 0.3s;
+}
+
+.word-ja.hidden {
+    display: none;
 }
 
 .instruction {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: #9ca3af;
-    position: absolute;
-    bottom: 20px;
+    margin-top: 10px;
 }
 
 /* Memorize Checkbox */
@@ -490,58 +529,9 @@ h1 {
     height: 24px;
     accent-color: var(--primary-color);
     cursor: pointer;
+}
 
-    /* Animations */
-    @keyframes slideOutLeft {
-        to {
-            transform: translateX(-120%) rotateY(0deg);
-            opacity: 0;
-        }
-    }
-
-    @keyframes slideInRight {
-        from {
-            transform: translateX(120%) rotateY(0deg);
-            opacity: 0;
-        }
-
-        to {
-            transform: translateX(0) rotateY(0deg);
-            opacity: 1;
-        }
-    }
-
-    @keyframes slideOutRight {
-        to {
-            transform: translateX(120%) rotateY(0deg);
-            opacity: 0;
-        }
-    }
-
-    @keyframes slideInLeft {
-        from {
-            transform: translateX(-120%) rotateY(0deg);
-            opacity: 0;
-        }
-
-        to {
-            transform: translateX(0) rotateY(0deg);
-            opacity: 1;
-        }
-    }
-
-    .card.slide-out-left {
-        animation: slideOutLeft 0.3s forwards ease-in;
-    }
-
-    .card.slide-in-right {
-        animation: slideInRight 0.3s forwards ease-out;
-    }
-
-    .card.slide-out-right {
-        animation: slideOutRight 0.3s forwards ease-in;
-    }
-
-    .card.slide-in-left {
-        animation: slideInLeft 0.3s forwards ease-out;
-    }
+/* Memorize check visibility */
+.memorize-check.hidden {
+    display: none;
+}

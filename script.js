@@ -278,13 +278,15 @@ function updateCardDisplay() {
 
     const word = activeWords[currentIndex];
 
-    // Reset card state
-    flashcard.classList.remove('flipped');
+    // Reset card state - hide Japanese and memorize check
+    flashcard.classList.remove('revealed');
+    wordJa.classList.add('hidden');
+    document.getElementById('memorize-check').classList.add('hidden');
+    document.getElementById('instruction').textContent = 'タップして日本語を表示';
     isFlipped = false;
     memorizedCheckbox.checked = false;
 
-    // Update text with small delay to hide transition if needed, 
-    // but here we update immediately as the card is front-facing
+    // Update text
     wordEn.textContent = word.en;
     wordJa.textContent = word.ja;
 
@@ -293,14 +295,22 @@ function updateCardDisplay() {
 
 function flipCard() {
     isFlipped = !isFlipped;
-    flashcard.classList.toggle('flipped');
 
     if (isFlipped) {
-        // Speak English word when flipped to back (or front? Spec says "speak on flip")
-        // Usually better to speak when showing English, but let's speak when flipping to back as a reinforcement?
-        // Or maybe speak immediately when English is shown?
-        // Let's speak the English word when flipping.
+        // Show Japanese translation and memorize checkbox
+        flashcard.classList.add('revealed');
+        wordJa.classList.remove('hidden');
+        document.getElementById('memorize-check').classList.remove('hidden');
+        document.getElementById('instruction').textContent = 'タップして隠す';
+
+        // Speak English word
         speak(activeWords[currentIndex].en);
+    } else {
+        // Hide Japanese translation and memorize checkbox
+        flashcard.classList.remove('revealed');
+        wordJa.classList.add('hidden');
+        document.getElementById('memorize-check').classList.add('hidden');
+        document.getElementById('instruction').textContent = 'タップして日本語を表示';
     }
 }
 
@@ -326,9 +336,6 @@ function animateTransition(direction) {
             currentIndex--;
         }
 
-        // Hide Japanese text temporarily during transition
-        wordJa.style.visibility = 'hidden';
-
         updateCardDisplay();
 
         flashcard.classList.remove(outClass);
@@ -337,8 +344,6 @@ function animateTransition(direction) {
         // Wait for slide-in to finish
         setTimeout(() => {
             flashcard.classList.remove(inClass);
-            // Restore Japanese text visibility after animation completes
-            wordJa.style.visibility = 'visible';
         }, 300);
     }, 300);
 }
@@ -372,9 +377,6 @@ function markAsMemorized() {
                 currentIndex = 0;
             }
 
-            // Hide Japanese text temporarily during transition
-            wordJa.style.visibility = 'hidden';
-
             updateCardDisplay();
 
             // Slide in next card
@@ -383,8 +385,6 @@ function markAsMemorized() {
 
             setTimeout(() => {
                 flashcard.classList.remove('slide-in-right');
-                // Restore Japanese text visibility after animation completes
-                wordJa.style.visibility = 'visible';
             }, 300);
         }
     }, 300);
