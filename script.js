@@ -305,13 +305,36 @@ function flipCard() {
 }
 
 function nextCard() {
-    currentIndex++;
-    updateCardDisplay();
+    animateTransition('next');
 }
 
 function prevCard() {
-    currentIndex--;
-    updateCardDisplay();
+    animateTransition('prev');
+}
+
+function animateTransition(direction) {
+    const outClass = direction === 'next' ? 'slide-out-left' : 'slide-out-right';
+    const inClass = direction === 'next' ? 'slide-in-right' : 'slide-in-left';
+
+    flashcard.classList.add(outClass);
+
+    // Wait for slide-out to finish
+    setTimeout(() => {
+        if (direction === 'next') {
+            currentIndex++;
+        } else {
+            currentIndex--;
+        }
+        updateCardDisplay();
+
+        flashcard.classList.remove(outClass);
+        flashcard.classList.add(inClass);
+
+        // Wait for slide-in to finish
+        setTimeout(() => {
+            flashcard.classList.remove(inClass);
+        }, 300);
+    }, 300);
 }
 
 function markAsMemorized() {
@@ -327,11 +350,13 @@ function markAsMemorized() {
         calculateTotalLevel();
     }
 
-    // Remove from active list
-    activeWords.splice(currentIndex, 1);
+    // Animate removal (slide out left like "next")
+    flashcard.classList.add('slide-out-left');
 
-    // Delay slightly to show the check animation, then move to next
     setTimeout(() => {
+        // Remove from active list
+        activeWords.splice(currentIndex, 1);
+
         if (activeWords.length === 0) {
             showCompletion();
         } else {
@@ -341,8 +366,16 @@ function markAsMemorized() {
                 currentIndex = 0;
             }
             updateCardDisplay();
+
+            // Slide in next card
+            flashcard.classList.remove('slide-out-left');
+            flashcard.classList.add('slide-in-right');
+
+            setTimeout(() => {
+                flashcard.classList.remove('slide-in-right');
+            }, 300);
         }
-    }, 500);
+    }, 300);
 }
 
 function showCompletion() {
